@@ -1,0 +1,60 @@
+name: Claude Issue Triage
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  triage:
+    if: github.event.issue.user.type != 'Bot'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write # necesario para añadir labels y comentar
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Issue Triage
+        id: claude-triage
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+
+          claude_args: |
+            --allowedTools "Bash(gh issue view:*),Bash(gh issue edit:*),Bash(gh issue comment:*),Bash(gh label list:*)"
+
+          prompt: |
+            Analiza el issue #${{ github.event.issue.number }} del repositorio ${{ github.repository }}.
+
+            Contexto del proyecto: es una implementación de Tetris en JavaScript vanilla
+            con HTML5 Canvas, sin dependencias ni build step. Los únicos archivos son
+            `index.html` (estructura DOM: canvas del tablero, canvas de "next piece", HUD,
+            overlay de pausa/game over), `style.css` (tema visual retro) y `game.js`
+            (toda la lógica del juego: modelo del tablero, piezas, colisiones, wall kicks,
+            game loop, clearing de líneas, scoring, leveling, ghost piece).
+
+            Realiza estos pasos usando el CLI `gh`:
+
+            1. Lee el issue con `gh issue view ${{ github.event.issue.number }} --json title,body,labels`.
+            2. Determina qué labels son apropiados usando ÚNICAMENTE los labels que ya
+               existen en el repositorio (consúltalos con `gh label list`). No crees
+               labels nuevos ni inventes nombres. Aplica los que correspondan con
+               `gh issue edit ${{ github.event.issue.number }} --add-label "<label>"`.
+               Si el issue ya tiene labels correctos, no los dupliques ni los quites
+               salvo que sean claramente incorrectos.
+            3. Publica un comentario de diagnóstico con
+               `gh issue comment ${{ github.event.issue.number }} --body "..."`
+               que incluya estas secciones en español:
+               - **Resumen**: qué reporta o pide el issue en una o dos frases.
+               - **Causa probable**: hipótesis técnica basada en la arquitectura del juego
+                 (ej. relacionado con `collide`, `tryRotate`, `loop`, `clearLines`, etc.).
+               - **Archivos/áreas afectadas**: qué partes de `game.js`, `index.html` o
+                 `style.css` probablemente hay que tocar.
+               - **Enfoque de solución sugerido**: pasos concretos y breves para resolverlo.
+               - **Complejidad estimada**: baja, media o alta, con una frase justificando.
+            4. No modifiques el cuerpo del issue ni escribas o cambies código del repositorio.
