@@ -49,7 +49,10 @@ jobs:
                salvo que sean claramente incorrectos.
             3. Publica un comentario de diagnóstico con
                `gh issue comment ${{ github.event.issue.number }} --body "..."`
-               que incluya estas secciones en español:
+               que incluya estas secciones en español. El comentario debe estar
+               escrito en formato Markdown válido y compatible con el renderizado
+               de GitHub (encabezados, listas, negritas, bloques de código con
+               ```lenguaje``` para fragmentos de código, etc.):
                - **Resumen**: qué reporta o pide el issue en una o dos frases.
                - **Causa probable**: hipótesis técnica basada en la arquitectura del juego
                  (ej. relacionado con `collide`, `tryRotate`, `loop`, `clearLines`, etc.).
