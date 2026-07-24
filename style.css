@@ -4,6 +4,11 @@
   padding: 0;
 }
 
+/* utilidad genérica: usada por overlay, pause-menu, restart-btn, overlay-score, etc. */
+.hidden {
+  display: none;
+}
+
 :root {
   --bg: #0f0f17;
   --text: #e0e0e0;
@@ -230,6 +235,10 @@ kbd {
   color: var(--overlay-title-color);
 }
 
+#overlay-title.pause-mode {
+  color: var(--title-color);
+}
+
 #overlay-score {
   font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
@@ -252,4 +261,116 @@ kbd {
 
 #restart-btn:hover {
   background: var(--restart-hover);
+}
+
+/* ---- Menú de pausa ---- */
+.pause-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+  min-width: 220px;
+}
+
+.pause-menu.hidden {
+  display: none;
+}
+
+.pause-menu-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu-btn {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--kbd-border);
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: background 0.15s, border-color 0.15s;
+  text-align: left;
+}
+
+.menu-btn:hover {
+  border-color: var(--toggle-knob);
+}
+
+.menu-btn.selected {
+  background: var(--restart-bg);
+  color: var(--restart-color);
+  border-color: var(--restart-bg);
+}
+
+.menu-btn.selected .label {
+  color: var(--restart-color);
+}
+
+.level-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: default;
+}
+
+.level-row .label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--label-color);
+  font-weight: 600;
+}
+
+.level-stepper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.level-btn {
+  background: var(--kbd-bg);
+  color: var(--text);
+  border: 1px solid var(--kbd-border);
+  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.level-btn:hover {
+  border-color: var(--toggle-knob);
+}
+
+#start-level-value {
+  min-width: 18px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.pause-controls {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 4px;
+  border-top: 1px solid var(--kbd-border);
+}
+
+.pause-controls.hidden {
+  display: none;
+}
+
+.pause-controls li {
+  font-size: 12px;
+  color: var(--control-text);
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }

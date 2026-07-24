@@ -46,7 +46,7 @@
             <li><kbd>↑</kbd> rotar</li>
             <li><kbd>↓</kbd> bajar</li>
             <li><kbd>Space</kbd> caída</li>
-            <li><kbd>P</kbd> pausa</li>
+            <li><kbd>P</kbd> / <kbd>Esc</kbd> pausa</li>
           </ul>
         </div>
       </aside>
@@ -57,6 +57,30 @@
         <p id="overlay-title">GAME OVER</p>
         <p id="overlay-score"></p>
         <button id="restart-btn">Reiniciar</button>
+
+        <div id="pause-menu" class="pause-menu hidden">
+          <div class="pause-menu-options" role="menu">
+            <button type="button" class="menu-btn" data-action="resume">Reanudar</button>
+            <button type="button" class="menu-btn" data-action="restart">Reiniciar</button>
+            <button type="button" class="menu-btn" data-action="controls">Ver controles</button>
+            <div class="menu-btn level-row" data-action="level">
+              <span class="label">NIVEL INICIAL</span>
+              <div class="level-stepper">
+                <button type="button" id="level-down" class="level-btn" tabindex="-1">−</button>
+                <span id="start-level-value">1</span>
+                <button type="button" id="level-up" class="level-btn" tabindex="-1">+</button>
+              </div>
+            </div>
+          </div>
+
+          <ul id="pause-controls" class="pause-controls hidden">
+            <li><kbd>←</kbd><kbd>→</kbd> mover</li>
+            <li><kbd>↑</kbd> rotar</li>
+            <li><kbd>↓</kbd> bajar</li>
+            <li><kbd>Space</kbd> caída</li>
+            <li><kbd>P</kbd> / <kbd>Esc</kbd> pausa</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
